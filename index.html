@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chat</title>
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+
+      .title {
+        display: flex;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 300%;
+      }
+
+      .centered {
+        display: flex;
+        justify-content: center;
+      }
+
+      .container {
+        width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      
+      textarea {
+        width: 100%;
+        height: 150px;
+        resize: none;
+        margin-bottom: 10px;
+      }
+      
+      .btn {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      function generateResponse() {
+        document.getElementById("send").style.visibility = "hidden"
+        var question = document.getElementById("question").value;
+        var apikey = "null";
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://api.betterapi.net/gen', true);
+
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            apikey = JSON.parse(xhr.responseText)["key"];
+            document.getElementById("answer").textContent = "[Connected! Now writing the answer...]";
+            var answer = "null"
+            var xhr2 = new XMLHttpRequest();
+            xhr2.open('GET', 'https://api.betterapi.net/youchat?inputs=' + question + '&key=' + apikey, true);
+
+            xhr2.onreadystatechange = function() {
+              if (xhr2.readyState === 4 && xhr2.status === 200) {
+                answer = JSON.parse(xhr2.responseText)["generated_text"];
+                document.getElementById("answer").textContent = answer;
+              }
+            };
+
+            xhr2.send();
+          }
+        };
+
+        xhr.send();
+        setTimeout(showSendButton, 10000);
+      }
+      function showSendButton() {
+        document.getElementById("send").style.visibility = "visible"
+      }
+    </script>
+    <p class="title">Chator</p>
+    <div class="container">
+      <textarea id="question" placeholder="Ask any question..." style="padding-left: 10px; padding-top: 10px; width: 90%;"></textarea>
+      <button class="btn" onclick="generateResponse()" id="send">Send</button>
+      <p id="answer">[Answer will appear here]</p>
+    </div>
+    <br>
+    <br>
+    <p class="centered">Also available for Android:</p>
+    <div class="title">
+      <a href="https://play.google.com/store/apps/details?id=angel.gabaldon.chator">
+        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Download Chator from Play Store" style="height: 70px;">
+      </a>
+    </div>
+    <!-- <p id="key"></p> -->
+  </body>
+</html>
