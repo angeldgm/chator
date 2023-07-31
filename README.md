@@ -1,7 +1,5 @@
 # chator
-ChatGPT clone for web and Android
-
-Note: The server that provides the answers is no longer working. Sorry.
+ChatGPT clone for web and Android (IMPORTANT: The server that provides the answers is no longer working. Sorry.)
 
 ## Chator web
 You can use Chator on the web here: https://angeldgm.github.io/chator
